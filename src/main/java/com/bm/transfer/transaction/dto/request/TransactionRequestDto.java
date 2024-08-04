@@ -13,11 +13,9 @@ public record TransactionRequestDto(
 
         User userAccount,
 
-        Long fromId,
 
         String toAccountNumber,
 
-        String recipient,
 
         BigDecimal amount,
 

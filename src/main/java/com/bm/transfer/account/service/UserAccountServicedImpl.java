@@ -59,11 +59,12 @@ public class UserAccountServicedImpl implements UserAccountService {
         User accountFrom = getAccount(fromId);
         User accountTo = getRecipientAccount(toAccountNumber);
 
+
         validateBalance(accountFrom.getBalance(), amount);
 
         performTransfer(accountFrom, accountTo, amount);
 
-        createTransaction(fromId, toAccountNumber, accountFrom, accountTo, amount);
+        createTransaction( toAccountNumber, accountFrom, amount);
 
         sendEmails(accountFrom, accountTo, amount);
 
@@ -102,14 +103,14 @@ public class UserAccountServicedImpl implements UserAccountService {
         }
     }
 
-    private void createTransaction(Long fromId, String toAccountNumber, User userAccountFrom, User userAccountTo, BigDecimal amount) {
+    private void createTransaction( String toAccountNumber, User userAccountFrom, BigDecimal amount) {
+
+        HttpStatus status = amount.compareTo(BigDecimal.valueOf(500)) < 0 ? HttpStatus.CONFLICT : HttpStatus.CREATED;
         var transaction = TransactionRequestDto.builder()
-                .userAccount(userAccountTo)
-                .fromId(fromId)
+                .userAccount(userAccountFrom)
                 .toAccountNumber(toAccountNumber)
-                .recipient(userAccountTo.getUsername())
                 .amount(amount)
-                .status(HttpStatus.CREATED) // Status logic can be improved if needed
+                .status(status) // Status logic can be improved if needed
                 .build();
 
         transactionService.createTransaction(transaction);

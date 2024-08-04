@@ -28,8 +28,6 @@ public class AccountController {
 
     private final UserAccountService service;
 
-
-
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(
             @Valid @RequestBody TransferRequest request

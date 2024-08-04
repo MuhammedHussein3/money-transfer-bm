@@ -33,14 +33,10 @@ public class Transaction {
     @JoinColumn(name = "user_account_id")
     private User user;
 
-    @Column(name = "from_id", nullable = false)
-    private Long fromId;
 
     @Column(name = "to_account_number", nullable = false)
     private String toAccountNumber;
 
-    @Column(name = "recipient", nullable = false)
-    private String recipient;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;

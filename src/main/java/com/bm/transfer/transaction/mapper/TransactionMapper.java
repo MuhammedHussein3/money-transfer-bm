@@ -10,10 +10,8 @@ public class TransactionMapper {
     public Transaction mapToTransaction(TransactionRequestDto requestDto) {
         return Transaction.builder()
                 .user(requestDto.userAccount())
-                .fromId(requestDto.fromId())
                 .toAccountNumber(requestDto.toAccountNumber())
                 .amount(requestDto.amount())
-                .recipient(requestDto.recipient())
                 .status(requestDto.status())
                 .build();
 
@@ -23,7 +21,6 @@ public class TransactionMapper {
 
         return TransactionResponseDto.builder()
                 .transactionDate(transaction.getTransactionDate())
-                .recipient(transaction.getRecipient())
                 .amount(transaction.getAmount())
                 .status(transaction.getStatus())
                 .build();

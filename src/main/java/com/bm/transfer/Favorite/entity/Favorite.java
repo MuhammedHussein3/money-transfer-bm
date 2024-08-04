@@ -1,6 +1,7 @@
 package com.bm.transfer.Favorite.entity;
 
 import com.bm.transfer.account.entity.Account;
+import com.bm.transfer.authentication.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,8 @@ public class Favorite {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "user_account_id")
+    private User user;
 
     @Column(name = "recipient_name", nullable = false)
     private String recipientName;

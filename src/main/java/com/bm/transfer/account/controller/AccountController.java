@@ -1,19 +1,15 @@
 package com.bm.transfer.account.controller;
 
-import com.bm.transfer.account.dto.request.AccountCreateRequest;
 import com.bm.transfer.account.dto.request.AccountUpdateRequest;
 import com.bm.transfer.account.dto.request.TransferRequest;
-import com.bm.transfer.account.dto.response.AccountResponseDto;
 
-import com.bm.transfer.account.service.AccountService;
+import com.bm.transfer.account.service.UserAccountService;
 
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.validation.annotation.Validated;
@@ -30,17 +26,8 @@ import java.math.BigDecimal;
 )
 public class AccountController {
 
-    private final AccountService service;
+    private final UserAccountService service;
 
-//    @PostMapping
-//    public ResponseEntity<AccountResponseDto> createAccount(
-//           @NonNull @RequestParam("user-id") Long userId,
-//          @Valid @RequestBody AccountCreateRequest request
-//            ){
-//        return ResponseEntity.status(
-//                HttpStatus.CREATED
-//        ).body(service.createAccount(userId, request));
-//    }
 
 
     @PostMapping("/transfer")

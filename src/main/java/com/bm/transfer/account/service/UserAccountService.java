@@ -1,16 +1,13 @@
 package com.bm.transfer.account.service;
 
 
-import com.bm.transfer.account.dto.request.AccountCreateRequest;
 import com.bm.transfer.account.dto.request.AccountUpdateRequest;
 import com.bm.transfer.account.dto.request.TransferRequest;
-import com.bm.transfer.account.dto.response.AccountResponseDto;
-import com.bm.transfer.account.dto.send.RecipientAccount;
 import jakarta.mail.MessagingException;
 
 import java.math.BigDecimal;
 
-public interface AccountService {
+public interface UserAccountService {
 
 //    AccountResponseDto createAccount(Long userId, AccountCreateRequest request);
 

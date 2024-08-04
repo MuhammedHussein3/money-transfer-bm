@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class TransactionMapper {
     public Transaction mapToTransaction(TransactionRequestDto requestDto) {
         return Transaction.builder()
-                .account(requestDto.account())
+                .user(requestDto.userAccount())
                 .fromId(requestDto.fromId())
                 .toAccountNumber(requestDto.toAccountNumber())
                 .amount(requestDto.amount())

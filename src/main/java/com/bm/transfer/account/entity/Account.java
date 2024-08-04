@@ -71,17 +71,6 @@ public class Account implements Serializable {
     private LocalDateTime lastModified;
 
 
-    @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
-
-
-    @OneToMany(mappedBy = "account")
-    private List<Favorite> favorites;
 
 }

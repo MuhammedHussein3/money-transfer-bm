@@ -1,6 +1,6 @@
 package com.bm.transfer.authentication.auth;
 
-import com.bm.transfer.account.service.AccountServiceImpl;
+import com.bm.transfer.account.service.UserAccountServicedImpl;
 import com.bm.transfer.authentication.role.RoleRepository;
 import com.bm.transfer.authentication.security.JwtService;
 import com.bm.transfer.authentication.user.Token;
@@ -10,15 +10,12 @@ import com.bm.transfer.authentication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +37,7 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final AccountServiceImpl accountService;
+    private final UserAccountServicedImpl accountService;
 
     public AuthenticationResponse register(RegistrationRequest request) {
 

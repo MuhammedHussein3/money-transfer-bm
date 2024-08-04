@@ -1,16 +1,15 @@
 package com.bm.transfer.account.service;
 
 
-import com.bm.transfer.account.dto.request.AccountCreateRequest;
 import com.bm.transfer.account.dto.request.AccountUpdateRequest;
 import com.bm.transfer.account.dto.request.TransferRequest;
-import com.bm.transfer.account.dto.response.AccountResponseDto;
 import com.bm.transfer.account.entity.Account;
 import com.bm.transfer.account.exception.AccountNotFoundException;
 import com.bm.transfer.account.exception.InsufficientBalanceException;
 import com.bm.transfer.account.exception.PasswordException;
 import com.bm.transfer.account.mapper.AccountMapper;
-import com.bm.transfer.account.repository.AccountRepository;
+
+import com.bm.transfer.authentication.user.User;
 import com.bm.transfer.authentication.user.UserRepository;
 import com.bm.transfer.email.SendEmailService;
 import com.bm.transfer.transaction.dto.request.TransactionRequestDto;
@@ -21,7 +20,6 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -35,39 +33,14 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements AccountService {
+public class UserAccountServicedImpl implements UserAccountService {
 
-    private final AccountRepository repository;
+
     private final AccountMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final TransactionService transactionService;
-    private final UserRepository userRepository;
+    private final UserRepository repository;
     private final SendEmailService emailService;
-
-
-//    @Transactional
-//    @Override
-//    public AccountResponseDto createAccount(Long userId, AccountCreateRequest request) {
-//
-//        var user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with ID:: %s", userId)));
-//
-//        var account = mapper.mapToAccount(request,
-//                generateAccountNumber(request.country().toString())
-//        );
-//
-//        String hashedPassword = passwordEncoder.encode(request.password());
-//        account.setPassword(hashedPassword);
-//
-//        account.setUser(user);
-//
-//        user.getAccounts().add(account);
-//
-//        repository.save(account);
-//
-//        return mapper.mapToAccountResponseDto(account);
-//    }
-
 
 
     @Transactional(
@@ -83,8 +56,8 @@ public class AccountServiceImpl implements AccountService {
         String toAccountNumber = request.toAccountNumber();
         BigDecimal amount = request.amount();
 
-        Account accountFrom = getAccount(fromId);
-        Account accountTo = getRecipientAccount(toAccountNumber);
+        User accountFrom = getAccount(fromId);
+        User accountTo = getRecipientAccount(toAccountNumber);
 
         validateBalance(accountFrom.getBalance(), amount);
 
@@ -97,13 +70,13 @@ public class AccountServiceImpl implements AccountService {
         return String.format("Transferred %s from account ID %s to account ID %s", amount, fromId, toAccountNumber);
     }
 
-    private Account getAccount(Long accountId) {
+    private User getAccount(Long accountId) {
         return repository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account not found with ID: %s", accountId)));
     }
 
-    private Account getRecipientAccount(String accountNumber) {
-        return repository.getAccountByAccountNumber(accountNumber)
+    private User getRecipientAccount(String accountNumber) {
+        return repository.getUserByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Recipient account not found with number: %s", accountNumber)));
     }
 
@@ -117,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
         return balance.subtract(amount).compareTo(BigDecimal.ZERO) >= 0;
     }
 
-    private void performTransfer(Account accountFrom, Account accountTo, BigDecimal amount) {
+    private void performTransfer(User accountFrom, User accountTo, BigDecimal amount) {
         BigDecimal transferThreshold = new BigDecimal(5000);
 
         if (amount.subtract(transferThreshold).compareTo(BigDecimal.ZERO) >= 0) {
@@ -129,12 +102,12 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    private void createTransaction(Long fromId, String toAccountNumber, Account accountFrom, Account accountTo, BigDecimal amount) {
+    private void createTransaction(Long fromId, String toAccountNumber, User userAccountFrom, User userAccountTo, BigDecimal amount) {
         var transaction = TransactionRequestDto.builder()
-                .account(accountFrom)
+                .userAccount(userAccountTo)
                 .fromId(fromId)
                 .toAccountNumber(toAccountNumber)
-                .recipient(accountTo.getUserName())
+                .recipient(userAccountTo.getUsername())
                 .amount(amount)
                 .status(HttpStatus.CREATED) // Status logic can be improved if needed
                 .build();
@@ -142,18 +115,20 @@ public class AccountServiceImpl implements AccountService {
         transactionService.createTransaction(transaction);
     }
 
-    private void sendEmails(Account accountFrom, Account accountTo, BigDecimal amount) throws MessagingException {
+    private void sendEmails(User accountFrom, User accountTo, BigDecimal amount) throws MessagingException {
         Map<String, Object> templateModelFrom = new HashMap<>();
-        templateModelFrom.put("name", accountFrom.getUserName());
+        templateModelFrom.put("name", accountFrom.getUsername());
         templateModelFrom.put("amount", amount);
         emailService.sendEmail(accountFrom.getEmail(), templateModelFrom, "email-template.html");
 
         Map<String, Object> templateModelTo = new HashMap<>();
-        templateModelTo.put("name", accountTo.getUserName());
+        templateModelTo.put("name", accountTo.getUsername());
         templateModelTo.put("amount", amount);
-        templateModelTo.put("sender", accountFrom.getUserName());
+        templateModelTo.put("sender", accountFrom.getUsername());
         emailService.sendEmail(accountTo.getEmail(), templateModelTo, "recipient-email-template.html");
     }
+
+
 
 
 
@@ -191,7 +166,7 @@ public class AccountServiceImpl implements AccountService {
 
 
 
-    private boolean isCurrentPasswordValid(Account account, String currentPassword){
+    private boolean isCurrentPasswordValid(User account, String currentPassword){
         return passwordEncoder.matches(currentPassword, account.getPassword());
     }
 

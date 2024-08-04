@@ -1,6 +1,7 @@
 package com.bm.transfer.transaction.entity;
 
 import com.bm.transfer.account.entity.Account;
+import com.bm.transfer.authentication.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,8 +30,8 @@ public class Transaction {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "user_account_id")
+    private User user;
 
     @Column(name = "from_id", nullable = false)
     private Long fromId;

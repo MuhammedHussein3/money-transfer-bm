@@ -1,8 +1,11 @@
 package com.bm.transfer.authentication.user;
 
+import com.bm.transfer.Favorite.entity.Favorite;
 import com.bm.transfer.account.dto.enums.Country;
 import com.bm.transfer.account.entity.Account;
 import com.bm.transfer.authentication.role.Role;
+import com.bm.transfer.transaction.entity.Transaction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -67,13 +70,14 @@ public class User implements UserDetails, Principal {
 
     private boolean enabled;
 
-    @OneToMany(
-            mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Account> accounts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Transaction> transactions;
+
+
+
+    @OneToMany(mappedBy = "user")
+    private List<Favorite> favorites;
 
 
     @ManyToMany(fetch = FetchType.EAGER)

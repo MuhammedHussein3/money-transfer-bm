@@ -4,19 +4,20 @@ import com.bm.transfer.Favorite.dto.request.FavoriteCreateRequest;
 import com.bm.transfer.Favorite.dto.response.FavoriteGetResponse;
 import com.bm.transfer.Favorite.entity.Favorite;
 import com.bm.transfer.account.exception.AccountNotFoundException;
-import com.bm.transfer.account.repository.AccountRepository;
+
+import com.bm.transfer.authentication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class FavoriteMapper {
-    private final AccountRepository repository;
+    private final UserRepository repository;
 
     public Favorite mapToFavorite(FavoriteCreateRequest request) {
         return Favorite.builder()
                 .recipientName(request.recipientName())
-                .account(repository.findById(
+                .user(repository.findById(
                         request.accountId()
                 ).orElseThrow(() -> new AccountNotFoundException(String.format("Account With AccountId:: %s Not Found",request.accountId()))))
                 .recipientAccountNumber(request.recipientAccountNumber())

@@ -16,7 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("""
             SELECT t
             FROM Transaction t
-            WHERE t.account.accountNumber = :accountNumber
+            WHERE t.user.accountNumber = :accountNumber
             """)
-    Page<Transaction> getAccountTransactionsHistoryByAccountId(String accountNumber, Pageable pageable);
+    Page<Transaction> getUserTransactionsHistoryByAccountId(String accountNumber, Pageable pageable);
 }

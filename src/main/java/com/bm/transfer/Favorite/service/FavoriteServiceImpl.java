@@ -6,7 +6,8 @@ import com.bm.transfer.Favorite.exceptions.FavoriteNotFoundException;
 import com.bm.transfer.Favorite.mapper.FavoriteMapper;
 import com.bm.transfer.Favorite.repository.FavoriteRepository;
 import com.bm.transfer.account.exception.AccountNotFoundException;
-import com.bm.transfer.account.repository.AccountRepository;
+
+import com.bm.transfer.authentication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     private final FavoriteRepository repository;
     private final FavoriteMapper mapper;
-    private final AccountRepository accountRepository;
+    private final UserRepository accountRepository;
 
 
 
@@ -32,7 +33,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         var account =  accountRepository.findById(request.accountId())
                         .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", request.accountId())));
         // check favorite account
-         accountRepository.getAccountByAccountNumberAndUserName(request.recipientAccountNumber(), request.recipientName())
+         accountRepository.getUserByAccountNumberAndUserName(request.recipientAccountNumber(), request.recipientName())
                 .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s And RecipientName:: %s", request.recipientAccountNumber(), request.recipientName())));
 
 
@@ -42,7 +43,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public List<FavoriteGetResponse> getFavoriteRecipients(String accountNumber) {
 
-        accountRepository.getAccountByAccountNumber(accountNumber).orElseThrow(
+        accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", accountNumber))
         );
 
@@ -56,15 +57,15 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteFavoriteRecipient(String accountNumber, String recipientAccountNumber) {
-        accountRepository.getAccountByAccountNumber(accountNumber).orElseThrow(
+        accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s", accountNumber))
         );
 
-        accountRepository.getAccountByAccountNumber(recipientAccountNumber)
+        accountRepository.getUserByAccountNumber(recipientAccountNumber)
                 .orElseThrow(
                         () -> new AccountNotFoundException(String.format("RecipientAccountNumber not found with recipientAccountNumber:: %s", recipientAccountNumber))
                 );
-        int a = repository.deleteFavoritesByAccountAccountNumberAndRecipientAccountNumber(accountNumber, recipientAccountNumber);
+        int a = repository.deleteFavoritesByUserAccountNumberAndRecipientAccountNumber(accountNumber, recipientAccountNumber);
 
         if (a == 0){
             throw new FavoriteNotFoundException(

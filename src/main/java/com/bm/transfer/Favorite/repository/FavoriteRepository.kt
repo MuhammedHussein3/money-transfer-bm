@@ -16,13 +16,13 @@ interface FavoriteRepository : JpaRepository<Favorite, Long> {
     @Query("""
     SELECT f
     FROM Favorite f
-    WHERE f.account.accountNumber = :accountNumber
+    WHERE f.user.accountNumber = :accountNumber
    """)
     fun getFavoriteRecipients(@Param("accountNumber") accountNumber: String) : List<Favorite>
 
 
     @Modifying
-    fun deleteFavoritesByAccountAccountNumberAndRecipientAccountNumber(
+    fun deleteFavoritesByUserAccountNumberAndRecipientAccountNumber(
         @Param("accountNumber") accountNumber: String,
         @Param("recipientName") recipientName: String
     ): Int

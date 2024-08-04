@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Email</title>
+    <style>
+        /* Add some styling here */
+    </style>
+</head>
+<body>
+<p th:text="'Dear ' + ${name} + ','"></p>
+<p th:text="'Your transaction of ' + ${amount} + ' has been processed successfully.'"></p>
+<p>Thank you for using our service!</p>
+<p>Regards,<br>Your Company</p>
+</body>
+</html>

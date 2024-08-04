@@ -1,0 +1,91 @@
+spring:
+  application:
+    name: fund-transfer
+
+  # Database Configuration
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5440/transfer_db
+    username: transfer
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      eclipselink:
+        logging:
+          level:
+            org:
+              hibernate:
+                SQL: debug
+                type:
+                  descriptor: trace
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: muhammadhussein2312@gmail.com
+    password: rnnl zoil doya pagh
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+  # Redis Config
+  data:
+    redis:
+      host: localhost
+      port: 6380
+      repositories:
+        enabled: false
+
+
+application:
+  security:
+    jwt:
+      secret-key: 40DKJ2234HKJH34KJ2HKJ2UY23U4234U2Y34H2KJH5KH7K6H7K5KJ32H56KJH46KJ4H57H45K8JHLK45KJHEKHKJH6KJH54KJHTKEJHTKB4532
+      expiration: 18000000
+
+
+
+
+server:
+  port: 8888
+
+  servlet:
+     session:
+        timeout: 30m
+
+
+# Resilience4J
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountTransferBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 3s
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+        max-attempts: 5
+        wait-duration: 2s
+
+  ratelimiter:
+    instances:
+      companyBreaker:
+        timeout-duration: 0
+        limit-refresh-period: 4
+        limit-for-period: 2

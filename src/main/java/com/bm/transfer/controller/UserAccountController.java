@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"*", "http://localhost:4200"})
 @Tag(name = "User Accounts", description = "Endpoints for managing user accounts")
 public class UserAccountController {
 

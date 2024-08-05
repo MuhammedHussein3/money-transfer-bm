@@ -20,6 +20,7 @@ import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,8 +51,8 @@ public class UserAccountServicedImpl implements UserAccountService {
             propagation = Propagation.REQUIRED,
             isolation = Isolation.SERIALIZABLE
     )
-
-    @RateLimiter(name = "accountTransferBreaker")
+    @RateLimiter(
+            name = "accountTransferBreaker")
     @Override
     public String transfer(TransferRequest request) throws MessagingException {
 
@@ -134,13 +135,10 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
 
-
-
-
-
-
     @NotNull
-//    @Cacheable(value = "Account.currentBalance", key = "#accountNumber")
+//    @Cacheable(
+//    value = "Account.currentBalance", key = "#accountNumber"
+//    )
     @Override
     public BigDecimal currentBalance(@NotNull String accountNumber) {
 
@@ -149,7 +147,9 @@ public class UserAccountServicedImpl implements UserAccountService {
     }
 
 
-
+//    @CacheEvict(
+//    value = "Account.details", key = "#accountNumber"
+//    )
     @Override
     public void updateAccount(
             @NotNull String accountNumber,
@@ -194,6 +194,9 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
     @NotNull
+//    @Cacheable(
+//    value = "Account.details", key = "#accountNumber"
+//    )
     @Override
     public AccountDetailsResponse getAccountDetails(@NotNull String accountNumber){
         return repository.getUserByAccountNumber(accountNumber)

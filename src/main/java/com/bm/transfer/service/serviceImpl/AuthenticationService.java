@@ -117,7 +117,7 @@ public class AuthenticationService {
 
 
     public void logout(String token) {;
-        System.out.println("///////////////////////////////////////////////////////////////////////////////////////");
+
         System.out.println(token);
         Optional<Token> savedToken = tokenRepository.findByToken(token);
         System.out.println(tokenRepository.findAll().get(0).getToken());

@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getUserByAccountNumberAndUserName(String accountNumber, String UserName);
 
     Optional<User>getUserByAccountNumber(String accountNumber);
+
 }

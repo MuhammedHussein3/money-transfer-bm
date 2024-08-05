@@ -10,13 +10,13 @@ import com.bm.transfer.exceptions.AccountNotFoundException;
 
 import com.bm.transfer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
@@ -25,25 +25,30 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteMapper mapper;
     private final UserRepository accountRepository;
 
-
-
     @Override
+    @Transactional
+//    @CacheEvict(
+//            value = "Favorite.recipients",
+//            key = "#request.accountNumber()"
+//    )
     public void AddFavoriteRecipient(FavoriteCreateRequest request) {
+        // Check account
+        var account = accountRepository.getUserByAccountNumber(request.accountNumber())
+                .orElseThrow(() -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", request.accountNumber())));
 
-        // check account
-        var account =  accountRepository.getUserByAccountNumber(request.accountNumber())
-                        .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", request.accountNumber())));
-        // check favorite account
-         accountRepository.getUserByAccountNumberAndUserName(request.recipientAccountNumber(), request.recipientName())
-                .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s And RecipientName:: %s", request.recipientAccountNumber(), request.recipientName())));
+        // Check favorite account
+        accountRepository.getUserByAccountNumberAndUserName(request.recipientAccountNumber(), request.recipientName())
+                .orElseThrow(() -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s And RecipientName:: %s", request.recipientAccountNumber(), request.recipientName())));
 
-
-         repository.save(mapper.mapToFavorite(request));
+        repository.save(mapper.mapToFavorite(request));
     }
-//    @Cacheable(value = "Favorite.getFavoriteRecipients", key = "#raccountId")
-    @Override
-    public List<FavoriteGetResponse> getFavoriteRecipients(String accountNumber) {
 
+    @Override
+//    @Cacheable(
+//            value = "Favorite.recipients",
+//            key = "#accountNumber"
+//    )
+    public List<FavoriteGetResponse> getFavoriteRecipients(String accountNumber) {
         accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", accountNumber))
         );
@@ -54,24 +59,23 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .toList();
     }
 
-
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional
+//    @CacheEvict(
+//            value = "Favorite.recipients",
+//            key = "#accountNumber"
+//    )
     public void deleteFavoriteRecipient(String accountNumber, String recipientAccountNumber) {
         accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s", accountNumber))
         );
 
         accountRepository.getUserByAccountNumber(recipientAccountNumber)
-                .orElseThrow(
-                        () -> new AccountNotFoundException(String.format("RecipientAccountNumber not found with recipientAccountNumber:: %s", recipientAccountNumber))
-                );
-        int a = repository.deleteFavoritesByUserAccountNumberAndRecipientAccountNumber(accountNumber, recipientAccountNumber);
+                .orElseThrow(() -> new AccountNotFoundException(String.format("RecipientAccountNumber not found with recipientAccountNumber:: %s", recipientAccountNumber)));
 
-        if (a == 0){
-            throw new FavoriteNotFoundException(
-                    String.format("Not Found Favorite Recipient %s", recipientAccountNumber)
-            );
+        int affectedRows = repository.deleteFavoritesByUserAccountNumberAndRecipientAccountNumber(accountNumber, recipientAccountNumber);
+        if (affectedRows == 0) {
+            throw new FavoriteNotFoundException(String.format("Not Found Favorite Recipient %s", recipientAccountNumber));
         }
     }
 }

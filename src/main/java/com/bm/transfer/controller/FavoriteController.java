@@ -3,6 +3,10 @@ package com.bm.transfer.controller;
 import com.bm.transfer.dto.request.FavoriteCreateRequest;
 import com.bm.transfer.dto.response.FavoriteGetResponse;
 import com.bm.transfer.service.FavoriteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +17,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/favorites")
 @RequiredArgsConstructor
-@CrossOrigin(
-
-)
+@CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Favorites", description = "Endpoints for managing favorite recipients")
 public class FavoriteController{
 
     private final FavoriteService service;
 
+    @Operation(
+            summary = "Add a favorite recipient",
+            description = "Adds a favorite recipient for a specific account",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Favorite recipient added successfully"),
+                    @ApiResponse(responseCode = "400", description = "Invalid request")
+            }
+    )
     @PostMapping
     public ResponseEntity<String> AddFavoriteRecipient(
             @RequestBody FavoriteCreateRequest request
@@ -33,7 +45,14 @@ public class FavoriteController{
                         );
     }
 
-
+    @Operation(
+            summary = "Get favorite recipients",
+            description = "Retrieves a list of favorite recipients for a specific account",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Favorite recipients retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Account not found")
+            }
+    )
     @GetMapping
     public ResponseEntity<List<FavoriteGetResponse>> getFavoriteRecipients(
             @RequestParam("account-number") String accountNumber
@@ -41,6 +60,15 @@ public class FavoriteController{
         return ResponseEntity.ok(service.getFavoriteRecipients(accountNumber));
     }
 
+
+    @Operation(
+            summary = "Delete a favorite recipient",
+            description = "Deletes a favorite recipient for a specific account",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Favorite recipient deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "Favorite recipient not found")
+            }
+    )
     @DeleteMapping
     public ResponseEntity<?> deleteFavorite(
             @RequestParam("account-number") String accountNumber,

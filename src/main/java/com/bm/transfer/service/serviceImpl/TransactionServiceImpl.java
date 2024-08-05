@@ -26,10 +26,11 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper mapper;
 
 
-
-//    @Caching(evict = {
-//            @CacheEvict(value = "Transaction.getTransaction", allEntries = true) // Evict all entries for this cache
-//    })
+//
+//    @CacheEvict(
+//            value = "Transaction.history",
+//            key = "#requestDto.userAccount.accountNumber"
+//    )
     @Override
     public void createTransaction(TransactionRequestDto requestDto) {
 
@@ -39,7 +40,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-//    @Cacheable(value = "Transaction.getTransaction", key = "#accountNumber")
+//    @Cacheable(
+//            value = "Transaction.history",
+//            key = "#accountNumber + '-' + #pageNo + '-' + #pageSize + '-' + #sortBy"
+//    )
+    @Override
     public TransactionPageResponse getTransactionsHistory(int pageNo, int pageSize, String sortBy, String accountNumber){
         Sort sort = Sort.by(Sort.Direction.ASC, sortBy);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);

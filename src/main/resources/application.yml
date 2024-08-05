@@ -2,11 +2,15 @@ spring:
   application:
     name: fund-transfer
   # Database Configuration
+
+
+
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5440/transfer_db
-    username: transfer
-    password: 12345
+    url: jdbc:postgresql://c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d5hi7p2ff12nug
+    username: u1sq3qcqrp4u76
+    password: p87c0620d9d378d7969cac15eda5efea9c7521303821a39e8124f3f575ea25841
   jpa:
     hibernate:
       ddl-auto: create-drop

@@ -27,9 +27,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 
-    @Caching(evict = {
-            @CacheEvict(value = "Transaction.getTransaction", allEntries = true) // Evict all entries for this cache
-    })
+//    @Caching(evict = {
+//            @CacheEvict(value = "Transaction.getTransaction", allEntries = true) // Evict all entries for this cache
+//    })
     @Override
     public void createTransaction(TransactionRequestDto requestDto) {
 
@@ -39,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-    @Cacheable(value = "Transaction.getTransaction", key = "#accountNumber")
+//    @Cacheable(value = "Transaction.getTransaction", key = "#accountNumber")
     public TransactionPageResponse getTransactionsHistory(int pageNo, int pageSize, String sortBy, String accountNumber){
         Sort sort = Sort.by(Sort.Direction.ASC, sortBy);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);

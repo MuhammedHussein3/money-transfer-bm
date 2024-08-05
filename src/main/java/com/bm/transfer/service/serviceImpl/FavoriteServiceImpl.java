@@ -40,7 +40,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
          repository.save(mapper.mapToFavorite(request));
     }
-    @Cacheable(value = "Favorite.getFavoriteRecipients", key = "#raccountId")
+//    @Cacheable(value = "Favorite.getFavoriteRecipients", key = "#raccountId")
     @Override
     public List<FavoriteGetResponse> getFavoriteRecipients(String accountNumber) {
 

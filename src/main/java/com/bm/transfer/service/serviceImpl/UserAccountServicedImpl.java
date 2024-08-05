@@ -140,7 +140,7 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
     @NotNull
-    @Cacheable(value = "Account.currentBalance", key = "#accountNumber")
+//    @Cacheable(value = "Account.currentBalance", key = "#accountNumber")
     @Override
     public BigDecimal currentBalance(@NotNull String accountNumber) {
 

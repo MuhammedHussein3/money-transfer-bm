@@ -3,20 +3,23 @@ package com.bm.transfer.service.serviceImpl;
 
 import com.bm.transfer.dto.request.AccountUpdateRequest;
 import com.bm.transfer.dto.request.TransferRequest;
+import com.bm.transfer.dto.response.AccountDetailsResponse;
 import com.bm.transfer.exceptions.AccountNotFoundException;
 import com.bm.transfer.exceptions.InsufficientBalanceException;
 import com.bm.transfer.exceptions.PasswordException;
 
 import com.bm.transfer.entity.User;
+import com.bm.transfer.mapper.UserMapper;
 import com.bm.transfer.repository.UserRepository;
 import com.bm.transfer.email.SendEmailService;
-import com.bm.transfer.service.UserAccountService;
 import com.bm.transfer.dto.request.TransactionRequestDto;
 import com.bm.transfer.service.TransactionService;
 
+import com.bm.transfer.service.UserAccountService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,13 +38,14 @@ import java.util.UUID;
 public class UserAccountServicedImpl implements UserAccountService {
 
 
-
+    private final SendEmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final TransactionService transactionService;
     private final UserRepository repository;
-    private final SendEmailService emailService;
+    private final UserMapper userMapper;
 
 
+    @NotNull
     @Transactional(
             propagation = Propagation.REQUIRED,
             isolation = Isolation.SERIALIZABLE
@@ -135,9 +139,10 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
 
+    @NotNull
     @Cacheable(value = "Account.currentBalance", key = "#accountNumber")
     @Override
-    public BigDecimal currentBalance(String accountNumber) {
+    public BigDecimal currentBalance(@NotNull String accountNumber) {
 
         return repository.getCurrentBalance(accountNumber)
                 .orElseThrow(() -> new InsufficientBalanceException("InsufficientBalanceException"));
@@ -147,8 +152,8 @@ public class UserAccountServicedImpl implements UserAccountService {
 
     @Override
     public void updateAccount(
-           String accountNumber,
-           AccountUpdateRequest request
+            @NotNull String accountNumber,
+            AccountUpdateRequest request
     ) {
 
         var account = repository.getUserByAccountNumber(accountNumber)
@@ -188,7 +193,15 @@ public class UserAccountServicedImpl implements UserAccountService {
     }
 
 
+    @NotNull
+    @Override
+    public AccountDetailsResponse getAccountDetails(@NotNull String accountNumber){
+        System.out.println("/////////////////////////////////////////////////////////"+accountNumber);
+        return repository.getUserByAccountNumber(accountNumber)
+                .map(userMapper::mapToAccountDetailsResponse)
+                .orElseThrow(() -> new AccountNotFoundException(String.format("Account not found with accountNumber:: %s", accountNumber)));
 
+    }
 
 
 

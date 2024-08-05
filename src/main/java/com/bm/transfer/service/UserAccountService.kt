@@ -1,20 +1,21 @@
-package com.bm.transfer.service;
+package com.bm.transfer.service
 
+import com.bm.transfer.dto.request.AccountUpdateRequest
+import com.bm.transfer.dto.request.TransferRequest
+import com.bm.transfer.dto.response.AccountDetailsResponse
+import jakarta.mail.MessagingException
+import org.springframework.stereotype.Component
+import java.math.BigDecimal
 
-import com.bm.transfer.dto.request.AccountUpdateRequest;
-import com.bm.transfer.dto.request.TransferRequest;
-import jakarta.mail.MessagingException;
+@Component
+interface UserAccountService {
 
-import java.math.BigDecimal;
+    fun getAccountDetails(accountNumber: String): AccountDetailsResponse
 
-public interface UserAccountService {
+    @Throws(MessagingException::class)
+    fun transfer(request: TransferRequest): String
 
-//    AccountResponseDto createAccount(Long userId, AccountCreateRequest request);
+    fun currentBalance(accountNumber: String): BigDecimal
 
-    String transfer(TransferRequest request) throws MessagingException;
-
-    BigDecimal currentBalance(String accountNumber);
-
-    void updateAccount(String accountNumber, AccountUpdateRequest request);
-
+    fun updateAccount(accountNumber: String, request: AccountUpdateRequest)
 }

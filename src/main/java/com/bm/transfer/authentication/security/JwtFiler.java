@@ -1,7 +1,7 @@
 package com.bm.transfer.authentication.security;
 
-import com.bm.transfer.authentication.user.Token;
-import com.bm.transfer.authentication.user.TokenRepository;
+import com.bm.transfer.entity.Token;
+import com.bm.transfer.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

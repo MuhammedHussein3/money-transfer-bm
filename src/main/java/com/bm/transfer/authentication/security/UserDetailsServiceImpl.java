@@ -1,6 +1,6 @@
 package com.bm.transfer.authentication.security;
 
-import com.bm.transfer.authentication.user.UserRepository;
+import com.bm.transfer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

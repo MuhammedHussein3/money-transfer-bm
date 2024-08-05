@@ -17,9 +17,9 @@ public class FavoriteMapper {
     public Favorite mapToFavorite(FavoriteCreateRequest request) {
         return Favorite.builder()
                 .recipientName(request.recipientName())
-                .user(repository.findById(
-                        request.accountId()
-                ).orElseThrow(() -> new AccountNotFoundException(String.format("Account With AccountId:: %s Not Found",request.accountId()))))
+                .user(repository.getUserByAccountNumber(
+                        request.accountNumber()
+                ).orElseThrow(() -> new AccountNotFoundException(String.format("Account With AccountId:: %s Not Found",request.accountNumber()))))
                 .recipientAccountNumber(request.recipientAccountNumber())
                 .build();
     }

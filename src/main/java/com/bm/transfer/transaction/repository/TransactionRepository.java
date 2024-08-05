@@ -18,5 +18,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             FROM Transaction t
             WHERE t.user.accountNumber = :accountNumber
             """)
-    Page<Transaction> getUserTransactionsHistoryByAccountId(String accountNumber, Pageable pageable);
+    Page<Transaction> getUserTransactionsHistoryByAccountNumber(String accountNumber, Pageable pageable);
 }

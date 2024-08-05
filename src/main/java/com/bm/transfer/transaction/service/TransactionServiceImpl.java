@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService{
     public TransactionPageResponse getTransactionsHistory(int pageNo, int pageSize, String sortBy, String accountNumber){
         Sort sort = Sort.by(Sort.Direction.ASC, sortBy);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Transaction> transactionPage =  repository.getUserTransactionsHistoryByAccountId(accountNumber, pageable);
+        Page<Transaction> transactionPage =  repository.getUserTransactionsHistoryByAccountNumber(accountNumber, pageable);
 
 
         return TransactionPageResponse.builder()

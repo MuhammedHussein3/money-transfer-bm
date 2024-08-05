@@ -30,8 +30,8 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void AddFavoriteRecipient(FavoriteCreateRequest request) {
 
         // check account
-        var account =  accountRepository.findById(request.accountId())
-                        .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", request.accountId())));
+        var account =  accountRepository.getUserByAccountNumber(request.accountNumber())
+                        .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", request.accountNumber())));
         // check favorite account
          accountRepository.getUserByAccountNumberAndUserName(request.recipientAccountNumber(), request.recipientName())
                 .orElseThrow( () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s And RecipientName:: %s", request.recipientAccountNumber(), request.recipientName())));

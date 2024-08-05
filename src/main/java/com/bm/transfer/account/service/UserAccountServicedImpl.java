@@ -148,12 +148,12 @@ public class UserAccountServicedImpl implements UserAccountService {
 
     @Override
     public void updateAccount(
-           Long accountId,
+           String accountNumber,
            AccountUpdateRequest request
     ) {
 
-        var account = repository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException(String.format("Account Not found with ID:: %s", accountId)));
+        var account = repository.getUserByAccountNumber(accountNumber)
+                .orElseThrow(() -> new AccountNotFoundException(String.format("Account Not found with AccountNumber:: %s", accountNumber)));
 
         if (!isCurrentPasswordValid(account, request.currentPassword())) {
             throw new PasswordException("You must enter the correct current password.");

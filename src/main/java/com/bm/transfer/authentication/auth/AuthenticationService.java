@@ -73,13 +73,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .accountNumber(savedUser.getAccountNumber())
-                .user_id(savedUser.getId())
                 .build();
 
     }
 
 
-    public String authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         logger.info("Authenticating user with email: {}", request.getEmail());
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -100,7 +99,10 @@ public class AuthenticationService {
                 .user(user)
                 .build();
         tokenRepository.save(token);
-        return token.getToken();
+        return AuthenticationResponse.builder()
+                .accountNumber(user.getAccountNumber())
+                .token(token.getToken())
+                .build();
     }
 
 
@@ -113,6 +115,7 @@ public class AuthenticationService {
         System.out.println("///////////////////////////////////////////////////////////////////////////////////////");
         System.out.println(token);
         Optional<Token> savedToken = tokenRepository.findByToken(token);
+        System.out.println(tokenRepository.findAll().get(0).getToken());
         System.out.println(savedToken.toString());
         savedToken.ifPresent(t -> {
             t.setInvalidated(true);

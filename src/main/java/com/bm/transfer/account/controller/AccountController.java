@@ -38,13 +38,12 @@ public class AccountController {
     @PutMapping
     public ResponseEntity<?> updateAccount(
             @NotNull(message = "Account ID is required")
-            @Min(value = 1, message = "Account ID must be a positive number")
-            @RequestParam("account-id") Long accountId,
+            @RequestParam("account-number") String accountNumber,
             @Valid @RequestBody AccountUpdateRequest request
     ) {
-        service.updateAccount(accountId, request);
+        service.updateAccount(accountNumber, request);
         return ResponseEntity.ok(
-                String.format("Account with ID %d updated successfully.", accountId));
+                String.format("Account with AccountNumber %s updated successfully.", accountNumber));
     }
 
 

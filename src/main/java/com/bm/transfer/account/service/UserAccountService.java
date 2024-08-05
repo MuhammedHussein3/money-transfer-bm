@@ -15,6 +15,6 @@ public interface UserAccountService {
 
     BigDecimal currentBalance(String accountNumber);
 
-    void updateAccount(Long accountId, AccountUpdateRequest request);
+    void updateAccount(String accountNumber, AccountUpdateRequest request);
 
 }

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public record FavoriteCreateRequest(
 
         @NotNull(message = "Account ID cannot be null")
-        Long accountId,
+        String accountNumber,
 
         @NotBlank(message = "Recipient name cannot be blank")
         @Size(max = 100, message = "Recipient name must be less than 100 characters")

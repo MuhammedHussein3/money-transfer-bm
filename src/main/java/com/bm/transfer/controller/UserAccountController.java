@@ -17,7 +17,9 @@ import java.math.BigDecimal;
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin
+@CrossOrigin(
+
+)
 public class UserAccountController {
 
     private final UserAccountService service;

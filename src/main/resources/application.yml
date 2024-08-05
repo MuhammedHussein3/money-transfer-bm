@@ -74,6 +74,11 @@ resilience4j:
         max-attempts: 5
         wait-duration: 2s
 
+java:
+  runtime:
+    version: 17
+
+
   ratelimiter:
     instances:
       companyBreaker:

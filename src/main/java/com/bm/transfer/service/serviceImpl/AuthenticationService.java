@@ -6,6 +6,7 @@ import com.bm.transfer.dto.request.RegistrationRequest;
 import com.bm.transfer.authentication.role.RoleRepository;
 import com.bm.transfer.authentication.security.JwtService;
 import com.bm.transfer.entity.Token;
+import com.bm.transfer.mapper.UserMapper;
 import com.bm.transfer.repository.TokenRepository;
 import com.bm.transfer.entity.User;
 import com.bm.transfer.repository.UserRepository;
@@ -40,6 +41,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserAccountServicedImpl accountService;
+    private final UserMapper mapper;
 
     public AuthenticationResponse register(RegistrationRequest request) {
 

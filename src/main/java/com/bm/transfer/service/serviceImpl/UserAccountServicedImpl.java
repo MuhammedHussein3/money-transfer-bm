@@ -196,7 +196,6 @@ public class UserAccountServicedImpl implements UserAccountService {
     @NotNull
     @Override
     public AccountDetailsResponse getAccountDetails(@NotNull String accountNumber){
-        System.out.println("/////////////////////////////////////////////////////////"+accountNumber);
         return repository.getUserByAccountNumber(accountNumber)
                 .map(userMapper::mapToAccountDetailsResponse)
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account not found with accountNumber:: %s", accountNumber)));

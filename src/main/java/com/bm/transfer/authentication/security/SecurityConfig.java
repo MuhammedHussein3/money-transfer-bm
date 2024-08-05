@@ -1,7 +1,7 @@
 
 package com.bm.transfer.authentication.security;
 
-import com.bm.transfer.authentication.config.CustomSessionExpirationHandler;
+//import com.bm.transfer.authentication.config.CustomSessionExpirationHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     private final JwtFiler jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final CustomSessionExpirationHandler sessionExpirationHandler;
+//    private final CustomSessionExpirationHandler sessionExpirationHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(STATELESS)
                         .sessionFixation().none()
-                        .invalidSessionStrategy(sessionExpirationHandler) // Set custom handler
+//                        .invalidSessionStrategy(sessionExpirationHandler) // Set custom handler
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -20,6 +20,14 @@ import static jakarta.persistence.EnumType.STRING;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "transactions")
 @ToString
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Transaction.history",
+                attributeNodes = {
+                        @NamedAttributeNode("user")
+                }
+        )
+})
 public class Transaction {
 
     @Id
@@ -27,7 +35,7 @@ public class Transaction {
     @Column(name = "transaction_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_account_id")
     private User user;
 

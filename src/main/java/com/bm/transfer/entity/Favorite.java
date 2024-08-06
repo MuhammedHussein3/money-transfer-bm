@@ -10,6 +10,14 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "favorites")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Favorite.detail",
+                attributeNodes = {
+                        @NamedAttributeNode("user")
+                }
+        )
+})
 public class Favorite {
 
     @Id
@@ -17,7 +25,7 @@ public class Favorite {
     @Column(name = "favorite_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_account_id")
     private User user;
 

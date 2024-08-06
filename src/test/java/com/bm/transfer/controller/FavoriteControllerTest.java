@@ -48,7 +48,7 @@ public class FavoriteControllerTest  {
     @Test
     void testAddFavoriteRecipient() throws Exception {
         FavoriteCreateRequest request = FavoriteCreateRequest.builder()
-                .recipientName("John Doe")
+                .recipientName("Muhammad_Hussein")
                 .accountNumber("123456")
                 .build();
 
@@ -56,13 +56,13 @@ public class FavoriteControllerTest  {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$").value("Favorite recipient John Doe added successfully"));
+                .andExpect(jsonPath("$").value("Favorite recipient Muhammad_Hussein added successfully"));
     }
 
     @Test
     void testGetFavoriteRecipients() throws Exception {
         FavoriteGetResponse response = FavoriteGetResponse.builder()
-                .recipientName("John Doe")
+                .recipientName("Muhammad_Hussein")
                 .build();
 
         when(service.getFavoriteRecipients(anyString())).thenReturn(Collections.singletonList(response));
@@ -70,7 +70,7 @@ public class FavoriteControllerTest  {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/favorites")
                         .param("account-number", "123456"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].recipientName").value("John Doe"));
+                .andExpect(jsonPath("$[0].recipientName").value("Muhammad_Hussein"));
     }
 
     @Test

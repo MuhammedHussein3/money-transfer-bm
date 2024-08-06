@@ -106,4 +106,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 Muhammad Hussein - [LinkedIn](https://linkedin.com/in/muhammad-hussein-a260a32a1) - [Email](muhammadhussein2312@gmail.com)
 
-Project Link: (https://github.com/MuhammedHussein3/fund-transfer)
+Omar Hossam - [LinkedIn](https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav)
+
+Project Link: (https://github.com/MuhammedHussein3/money-transfer-bm)
+

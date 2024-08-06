@@ -1,5 +1,6 @@
 package com.bm.transfer.mapper;
 
+import com.bm.transfer.dto.request.RegistrationRequest;
 import com.bm.transfer.dto.response.AccountDetailsResponse;
 import com.bm.transfer.entity.User;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,6 @@ public class UserMapper {
                 user.getDateOfBirth().toString()
         );
     }
+
+
 }

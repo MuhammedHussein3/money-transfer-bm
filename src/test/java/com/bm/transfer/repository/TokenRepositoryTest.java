@@ -34,7 +34,7 @@ public class TokenRepositoryTest {
 
         token = Token.builder()
                 .id(1)
-                .token("e3iaksoui2mrlkjalkdflkajsdiurj2k3rnmkdajdjfiuifojsdkjfaskdjfaisudfi2jlk3j42y37437hjehda7str23rdtadybsdbfq3t4j32r876cxhucuas9d89sdvs9dsa9fj8908c9dif9as98f9asdf0asd9fas")
+                .token("e")
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .invalidated(false)
@@ -45,8 +45,8 @@ public class TokenRepositoryTest {
     void shouldFindByToken() {
         when(tokenRepository.findByToken(anyString())).thenReturn(Optional.of(token));
 
-        Optional<Token> foundToken = tokenRepository.findByToken("e3iaksoui2mrlkjalkdflkajsdiurj2k3rnmkdajdjfiuifojsdkjfaskdjfaisudfi2jlk3j42y37437hjehda7str23rdtadybsdbfq3t4j32r876cxhucuas9d89sdvs9dsa9fj8908c9dif9as98f9asdf0asd9fas");
+        Optional<Token> foundToken = tokenRepository.findByToken("e");
         assertTrue(foundToken.isPresent());
-        assertEquals("e3iaksoui2mrlkjalkdflkajsdiurj2k3rnmkdajdjfiuifojsdkjfaskdjfaisudfi2jlk3j42y37437hjehda7str23rdtadybsdbfq3t4j32r876cxhucuas9d89sdvs9dsa9fj8908c9dif9as98f9asdf0asd9fas", foundToken.get().getToken());
+        assertEquals("e", foundToken.get().getToken());
     }
 }

@@ -1,7 +1,9 @@
 package com.bm.transfer.dto.request;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
+@Builder
 public record AccountUpdateRequest(
 
         @NotBlank(message = "Current password is required")

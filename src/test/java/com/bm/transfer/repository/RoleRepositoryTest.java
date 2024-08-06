@@ -1,6 +1,6 @@
 package com.bm.transfer.repository;
 
-import com.bm.transfer.authentication.role.Role;
+import com.bm.transfer.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

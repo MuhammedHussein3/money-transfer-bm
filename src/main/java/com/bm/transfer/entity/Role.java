@@ -1,6 +1,5 @@
-package com.bm.transfer.authentication.role;
+package com.bm.transfer.entity;
 
-import com.bm.transfer.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

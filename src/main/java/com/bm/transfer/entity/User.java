@@ -2,7 +2,6 @@ package com.bm.transfer.entity;
 
 import com.bm.transfer.dto.enums.Branch;
 import com.bm.transfer.dto.enums.Country;
-import com.bm.transfer.authentication.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -40,6 +39,7 @@ public class User implements UserDetails, Principal {
     @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
+    @Getter
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
@@ -74,12 +74,12 @@ public class User implements UserDetails, Principal {
     private boolean enabled;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Transaction> transactions;
 
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites;
 
 
@@ -93,6 +93,7 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
 
 
 
@@ -142,5 +143,9 @@ public class User implements UserDetails, Principal {
 
     public String fullName(){
         return "" + " " + "";
+    }
+
+    public String getUserName(){
+        return userName;
     }
 }

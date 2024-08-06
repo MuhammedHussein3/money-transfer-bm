@@ -28,6 +28,7 @@ public class JwtService {
     private String secretKey;
 
     private final TokenRepository tokenRepository;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }

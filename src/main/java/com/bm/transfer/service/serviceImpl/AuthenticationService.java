@@ -3,7 +3,7 @@ package com.bm.transfer.service.serviceImpl;
 import com.bm.transfer.dto.request.AuthenticationRequest;
 import com.bm.transfer.dto.response.AuthenticationResponse;
 import com.bm.transfer.dto.request.RegistrationRequest;
-import com.bm.transfer.authentication.role.RoleRepository;
+import com.bm.transfer.repository.RoleRepository;
 import com.bm.transfer.authentication.security.JwtService;
 import com.bm.transfer.entity.Token;
 import com.bm.transfer.mapper.UserMapper;
@@ -47,6 +47,7 @@ public class AuthenticationService {
 
         var userRole = roleRepository.findByName(USER_ROLE)
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
+
 
         var user = User.builder()
                 .userName(request.userName)

@@ -27,6 +27,15 @@ services:
       - transfer-bm
     restart: unless-stopped
 
+
+  zipkin:
+    container_name: money_transfer_zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - transfer-bm
+
 networks:
   transfer-bm:
 

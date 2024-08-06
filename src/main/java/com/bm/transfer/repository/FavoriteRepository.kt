@@ -1,6 +1,7 @@
 package com.bm.transfer.repository
 
 import com.bm.transfer.entity.Favorite
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface FavoriteRepository : JpaRepository<Favorite, Long> {
 
+    @EntityGraph(value = "Favorite.detail", type = EntityGraph.EntityGraphType.FETCH)
     @Query("""
     SELECT f
     FROM Favorite f

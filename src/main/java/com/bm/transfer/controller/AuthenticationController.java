@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(origins = {"*", "http://localhost:4200"})
+@CrossOrigin(
+
+)
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Authentication", description = "Endpoints for user authentication")
 

@@ -1,11 +1,10 @@
 package com.bm.transfer;
 
-import com.bm.transfer.authentication.role.Role;
-import com.bm.transfer.authentication.role.RoleRepository;
+import com.bm.transfer.entity.Role;
+import com.bm.transfer.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 

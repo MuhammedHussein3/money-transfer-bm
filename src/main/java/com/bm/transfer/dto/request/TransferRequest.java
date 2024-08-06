@@ -2,9 +2,11 @@ package com.bm.transfer.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 
+@Builder
 public record TransferRequest(
         @NotNull(message = "fromId is required")
         @Min(value = 1, message = "fromId must be greater than 0")

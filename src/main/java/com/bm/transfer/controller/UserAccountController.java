@@ -20,7 +20,9 @@ import java.math.BigDecimal;
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(origins = {"*", "http://localhost:4200"})
+@CrossOrigin(
+
+)
 @Tag(name = "User Accounts", description = "Endpoints for managing user accounts")
 public class UserAccountController {
 
@@ -35,6 +37,8 @@ public class UserAccountController {
                     @ApiResponse(responseCode = "500", description = "Internal server error")
             }
     )
+
+
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(
             @Valid @RequestBody TransferRequest request

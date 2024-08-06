@@ -17,7 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/favorites")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"*", "http://localhost:4200"})
+@CrossOrigin(
+
+)
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Favorites", description = "Endpoints for managing favorite recipients")
 public class FavoriteController{

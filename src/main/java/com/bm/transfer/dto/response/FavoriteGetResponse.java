@@ -5,6 +5,6 @@ import lombok.Builder;
 @Builder
 public record FavoriteGetResponse(
 
-         String recipientName
+        String recipientName
 ) {
 }

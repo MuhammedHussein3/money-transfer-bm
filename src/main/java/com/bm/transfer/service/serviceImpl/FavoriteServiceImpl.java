@@ -27,10 +27,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     @Transactional
-//    @CacheEvict(
-//            value = "Favorite.recipients",
-//            key = "#request.accountNumber()"
-//    )
+    @CacheEvict(
+            value = "Favorite.recipients",
+            key = "#request.accountNumber()"
+    )
     public void AddFavoriteRecipient(FavoriteCreateRequest request) {
         // Check account
         var account = accountRepository.getUserByAccountNumber(request.accountNumber())
@@ -44,10 +44,10 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-//    @Cacheable(
-//            value = "Favorite.recipients",
-//            key = "#accountNumber"
-//    )
+    @Cacheable(
+            value = "Favorite.recipients",
+            key = "#accountNumber"
+    )
     public List<FavoriteGetResponse> getFavoriteRecipients(String accountNumber) {
         accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With ID:: %s", accountNumber))
@@ -61,10 +61,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     @Transactional
-//    @CacheEvict(
-//            value = "Favorite.recipients",
-//            key = "#accountNumber"
-//    )
+    @CacheEvict(
+            value = "Favorite.recipients",
+            key = "#accountNumber"
+    )
     public void deleteFavoriteRecipient(String accountNumber, String recipientAccountNumber) {
         accountRepository.getUserByAccountNumber(accountNumber).orElseThrow(
                 () -> new AccountNotFoundException(String.format("Account Not Found With AccountNumber:: %s", accountNumber))

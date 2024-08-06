@@ -27,7 +27,19 @@ import static jakarta.persistence.EnumType.STRING;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        indexes = {
+                @Index(
+                        name = "idx_user_accountNumber", columnList = "accountNumber"
+                ),
+                @Index(
+                        name = "idx_user_email", columnList = "email"
+                ),
+                @Index(name = "idx_user_username", columnList = "username"),
+
+        }
+)
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
 

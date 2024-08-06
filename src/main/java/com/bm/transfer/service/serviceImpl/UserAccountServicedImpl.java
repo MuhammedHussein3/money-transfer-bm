@@ -135,10 +135,10 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
 
-    @NotNull
-    @Cacheable(
-    value = "Account.currentBalance", key = "#accountNumber"
-    )
+//    @NotNull
+//    @Cacheable(
+//    value = "Account.currentBalance", key = "#accountNumber"
+//    )
     @Override
     public BigDecimal currentBalance(@NotNull String accountNumber) {
 
@@ -147,9 +147,9 @@ public class UserAccountServicedImpl implements UserAccountService {
     }
 
 
-    @CacheEvict(
-    value = "Account.details", key = "#accountNumber"
-    )
+//    @CacheEvict(
+//    value = "Account.details", key = "#accountNumber"
+//    )
     @Override
     public void updateAccount(
             @NotNull String accountNumber,
@@ -194,9 +194,9 @@ public class UserAccountServicedImpl implements UserAccountService {
 
 
     @NotNull
-    @Cacheable(
-    value = "Account.details", key = "#accountNumber"
-    )
+//    @Cacheable(
+//    value = "Account.details", key = "#accountNumber"
+//    )
     @Override
     public AccountDetailsResponse getAccountDetails(@NotNull String accountNumber){
         return repository.getUserByAccountNumber(accountNumber)

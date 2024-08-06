@@ -17,15 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/favorites")
 @RequiredArgsConstructor
-@CrossOrigin(
-
-)
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Favorites", description = "Endpoints for managing favorite recipients")
 public class FavoriteController{
 
     private final FavoriteService service;
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Add a favorite recipient",
             description = "Adds a favorite recipient for a specific account",
@@ -47,6 +45,7 @@ public class FavoriteController{
                         );
     }
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Get favorite recipients",
             description = "Retrieves a list of favorite recipients for a specific account",
@@ -63,6 +62,7 @@ public class FavoriteController{
     }
 
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Delete a favorite recipient",
             description = "Deletes a favorite recipient for a specific account",

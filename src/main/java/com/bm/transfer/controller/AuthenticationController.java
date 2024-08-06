@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(
-
-)
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Authentication", description = "Endpoints for user authentication")
 
@@ -30,6 +27,7 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Register a new user",
             description = "Registers a new user and returns an authentication response with a JWT token",
@@ -45,6 +43,7 @@ public class AuthenticationController {
         return ResponseEntity.accepted().body(service.register(request));
     }
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Authenticate a user",
             description = "Authenticates a user and returns an authentication response with a JWT token",
@@ -59,6 +58,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Logout a user",
             description = "Logs out a user by invalidating the JWT token",

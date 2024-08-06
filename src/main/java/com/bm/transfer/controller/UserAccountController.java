@@ -20,14 +20,12 @@ import java.math.BigDecimal;
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(
-
-)
 @Tag(name = "User Accounts", description = "Endpoints for managing user accounts")
 public class UserAccountController {
 
     private final UserAccountService service;
 
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Transfer funds",
             description = "Transfers funds from one account to another",
@@ -46,6 +44,9 @@ public class UserAccountController {
         return ResponseEntity.ok(service.transfer(request));
     }
 
+
+
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Update account",
             description = "Updates the details of an account",
@@ -64,6 +65,9 @@ public class UserAccountController {
         return ResponseEntity.ok("Account with AccountNumber " + accountNumber + " updated successfully.");
     }
 
+
+
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Get current balance",
             description = "Retrieves the current balance of an account",
@@ -79,6 +83,9 @@ public class UserAccountController {
         return ResponseEntity.ok(service.currentBalance(accountNumber));
     }
 
+
+
+    @CrossOrigin(origins = "*")
     @Operation(
             summary = "Get account details",
             description = "Retrieves the details of an account",

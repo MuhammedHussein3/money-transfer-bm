@@ -4,8 +4,6 @@ spring:
   # Database Configuration
 
 
-
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d5hi7p2ff12nug
